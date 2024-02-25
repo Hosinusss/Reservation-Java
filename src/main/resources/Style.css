@@ -1,0 +1,20 @@
+
+
+.home{
+    -fx-font-weight: bold;
+    -fx-background-color:none;
+    -fx-cursor:hand;
+    -fx-text-fill: white;
+}
+
+.btn_Espaces{
+    -fx-font-family: "Bauhaus 93";
+    -fx-background-color:#B45040;
+    -fx-text-fill: #011936;
+    -fx-font-size: 15px;
+    -fx-background-radius:18px;
+}
+
+.rectangle{
+    -fx-background-radius:5px;
+}
