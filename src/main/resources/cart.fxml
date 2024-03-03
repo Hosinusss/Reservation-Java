@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.ShoppingPage">
+    <children>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#011a36" height="564.0" stroke="BLACK" strokeType="INSIDE" width="166.0" />
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#506e8ead" height="564.0" layoutX="166.0" stroke="BLACK" strokeType="INSIDE" width="672.0" />
+        <Label layoutX="430.0" layoutY="20.0" text="PANIER">
+            <font>
+                <Font name="Franklin Gothic Medium" size="43.0" />
+            </font>
+        </Label>
+        <Label fx:id="Profile_SU" alignment="CENTER" layoutX="22.0" layoutY="158.0" onMouseClicked="#AfficherProfile" prefHeight="18.0" prefWidth="122.0" text="Profile" textFill="WHITE">
+            <font>
+                <Font size="20.0" />
+            </font>
+        </Label>
+        <Label fx:id="Abon_SU" alignment="CENTER" layoutX="33.0" layoutY="209.0" prefHeight="30.0" prefWidth="131.0" text="Abonnements" textFill="WHITE">
+            <font>
+                <Font size="20.0" />
+            </font>
+        </Label>
+        <Label fx:id="Planning_SU" alignment="CENTER" layoutX="29.0" layoutY="261.0" onMouseClicked="#planning" prefHeight="18.0" prefWidth="122.0" text="Planning" textFill="WHITE">
+            <font>
+                <Font size="20.0" />
+            </font>
+            <opaqueInsets>
+                <Insets />
+            </opaqueInsets>
+            <effect>
+                <DropShadow blurType="GAUSSIAN" height="97.03" radius="67.02250000000001" spread="0.71" width="173.06">
+                    <color>
+                        <Color red="1.0" green="1.0" blue="1.0" />
+                    </color>
+                </DropShadow>
+            </effect>
+        </Label>
+        <Label fx:id="Animaux" alignment="CENTER" layoutX="36.0" layoutY="361.0" prefHeight="30.0" prefWidth="131.0" text="Mes Animaux" textFill="WHITE">
+            <font>
+                <Font size="20.0" />
+            </font>
+        </Label>
+        <Label fx:id="Produits_SU" alignment="CENTER" layoutX="30.0" layoutY="312.0" prefHeight="18.0" prefWidth="122.0" text="Produits" textFill="WHITE">
+            <font>
+                <Font size="20.0" />
+            </font>
+        </Label>
+        <Label alignment="CENTER" layoutX="46.0" layoutY="519.0" prefHeight="30.0" prefWidth="131.0" text="Se Déconnecter" textFill="WHITE">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Label>
+        <ImageView fitHeight="42.0" fitWidth="45.0" layoutX="14.0" layoutY="25.0">
+            <image>
+                <Image url="@moree.png" />
+            </image>
+        </ImageView>
+        <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="14.0" layoutY="314.0">
+            <image>
+                <Image url="@cart.png" />
+            </image>
+        </ImageView>
+        <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="14.0" layoutY="364.0">
+            <image>
+                <Image url="@paw.png" />
+            </image>
+        </ImageView>
+        <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="14.0" layoutY="162.0">
+            <image>
+                <Image url="@profile.png" />
+            </image>
+        </ImageView>
+
+        <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="14.0" layoutY="264.0">
+            <image>
+                <Image url="@subscription.png" />
+            </image>
+        </ImageView>
+        <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="14.0" layoutY="211.0">
+            <image>
+                <Image url="@task.png" />
+            </image>
+        </ImageView>
+        <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="131.0" layoutY="507.0">
+            <image>
+                <Image url="@back-button.png" />
+            </image>
+        </ImageView>
+        <Accordion layoutX="335.0" layoutY="214.0" />
+        <HBox layoutX="326.0" layoutY="133.39999389648438" />
+        <HBox layoutX="326.0" layoutY="159.0" />
+        <HBox layoutX="326.0" layoutY="184.60000610351562" />
+        <HBox layoutX="326.0" layoutY="210.1999969482422" />
+        <HBox layoutX="326.0" layoutY="235.8000030517578" />
+        <TextField fx:id="reservationField" layoutX="682.0" layoutY="12.0" opacity="0.0" />
+        <Label layoutX="598.0" layoutY="13.0" opacity="0.0" text="Reservation ID:" />
+        <VBox fx:id="courseContainer" layoutX="195.0" layoutY="192.0" prefHeight="315.0" prefWidth="613.0" stylesheets="@Style.css">
+         <children>
+            <VBox fx:id="cartitems" prefHeight="305.0" prefWidth="614.0" />
+             <Label fx:id="totalLabel" prefHeight="27.0" prefWidth="103.0" text="Total: 160$">
+               <font>
+                  <Font size="18.0" />
+               </font></Label>
+
+             <!-- Proceed to Checkout button -->
+             <Button fx:id="proceedToCheckoutButton" onAction="#proceedToCheckoutClicked" prefHeight="30.0" prefWidth="160.0" text="Proceed to Checkout">
+               <font>
+                  <Font size="15.0" />
+               </font></Button>
+         </children></VBox>
+        <ImageView fx:id="cartimg" fitHeight="42.0" fitWidth="45.0" layoutX="764.0" layoutY="17.0" nodeOrientation="RIGHT_TO_LEFT">
+            <image>
+                <Image url="@cart.png" />
+            </image>
+            <effect>
+                <InnerShadow radius="68.5" width="255.0" />
+            </effect>
+        </ImageView>
+      <ChoiceBox fx:id="categoryChoiceBox" layoutX="177.0" layoutY="32.0" opacity="0.0" prefHeight="26.0" prefWidth="213.0" />
+    </children>
+
+
+
+</AnchorPane>

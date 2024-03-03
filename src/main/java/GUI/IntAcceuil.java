@@ -1,5 +1,8 @@
 package GUI;
 
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -11,14 +14,23 @@ import java.util.ResourceBundle;
 import java.time.LocalTime;
 import javafx.beans.InvalidationListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.beans.value.ChangeListener;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -27,17 +39,27 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import models.Reservation;
 import services.ReservationService;
 
 public class IntAcceuil {
 
+
     @FXML
     private ResourceBundle resources;
 
     @FXML
-    private URL location;
+    private CategoryAxis xAxis;
 
+    @FXML
+    private URL location;
+    @FXML
+    private TextField search;
+
+
+    @FXML
+    private Button Bstat;
     @FXML
     private Label Abon_SU;
 
@@ -90,6 +112,15 @@ public class IntAcceuil {
     private Button updateButton;
 
     @FXML
+    private Button Bpdf;
+
+
+
+    @FXML
+    ReservationService reservationService = new ReservationService();
+
+
+    @FXML
     private TableView<Reservation> reservationTable;
     @FXML
     private TableColumn<Reservation, Integer> reservationIdColumn;
@@ -111,10 +142,38 @@ public class IntAcceuil {
     private TableColumn<Reservation, Integer> pricingColumn;
 
 
+    @FXML
+    private void handleBstatButton(ActionEvent event) {
+        try {
+            // Load the stat.fxml file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/chart.fxml"));
+            Parent root = loader.load();
 
+            // Get the controller
+            Chart controller = loader.getController();
+
+// Call the method to populate the chart
+            controller.initialize();
+
+            // Create a new stage for the stat view
+            Stage stage = new Stage();
+            stage.setTitle("Statistics");
+            stage.setScene(new Scene(root));
+            stage.show();
+
+            // Optionally, close the current stage (if needed)
+            //((Stage) Bstat.getScene().getWindow()).close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     @FXML
     void AfficherProfile(MouseEvent event) {
 
+    }
+
+    public List<Reservation> getTableReservations() {
+        return reservationTable.getItems();
     }
 
     @FXML
@@ -213,9 +272,6 @@ public class IntAcceuil {
     }
 
 
-
-
-
     @FXML
     public void initialize() {
         reservationIdColumn.setCellValueFactory(new PropertyValueFactory<>("reservationID"));
@@ -234,6 +290,16 @@ public class IntAcceuil {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        ObservableList<Reservation> reservations;
+        try {
+            ReservationService reservationService1= new ReservationService();
+            reservations = FXCollections.observableArrayList(reservationService1.recuperer());
+            reservationTable.setItems(reservations);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
 
         reservationTable.setRowFactory(tv -> {
             TableRow<Reservation> row = new TableRow<>();
@@ -344,11 +410,36 @@ public class IntAcceuil {
 // Add the listener to the dateField
         dateField.focusedProperty().addListener(dateFieldFocusListener);
 
+        ObservableList<Reservation> res;
 
+        try {
+            ReservationService userService = new ReservationService();
+            res = FXCollections.observableArrayList(userService.recuperer());
+            reservationTable.setItems(res);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        FilteredList<Reservation> filteredData = new FilteredList<>(res, b -> true);
+        search.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(Reservation -> {
+                if (newValue.isEmpty() || newValue.isBlank() || newValue == null) {
+                    return true;
+                }
+                String searchKeyword = newValue.toLowerCase();
+                return Reservation.getCategory().toLowerCase().indexOf(searchKeyword) > -1;
+            });
+        });
+        SortedList<Reservation> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(reservationTable.comparatorProperty());
+        reservationTable.setItems(sortedData);
     }
+
+
+
     private boolean isValidCategory(String category) {
         // Define the valid categories
-        List<String> validCategories = Arrays.asList("Gym", "Boxing","Cardio", "Crossfit", "Cycling", "Dance", "Pilates", "Yoga");
+        List<String> validCategories = Arrays.asList("Gym", "Boxing", "Cardio", "Crossfit", "Cycling", "Dance", "Pilates", "Yoga");
 
         // Check if the category is valid
         return validCategories.contains(category);
@@ -379,4 +470,28 @@ public class IntAcceuil {
     }
 
 
+    public List<String> getCategories() {
+        return categoryField.getItems();
+    }
+
+    @FXML
+    void generatePdfButtonClicked(ActionEvent actionEvent) {
+        // Handle the button click to generate the PDF
+        reservationService.generatePdfFromTableView(reservationTable.getItems()); // Pass the list of users
+
+        // Open the PDF file
+        File file = new File("table_view.pdf");
+        if (Desktop.isDesktopSupported()) {
+            Desktop desktop = Desktop.getDesktop();
+            if (file.exists()) {
+                try {
+                    desktop.open(file);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+
+    }
 }

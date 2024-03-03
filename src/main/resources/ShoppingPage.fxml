@@ -2,45 +2,27 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Accordion?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.IntAcceuil">
+<AnchorPane prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.ShoppingPage">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#011a36" height="564.0" stroke="BLACK" strokeType="INSIDE" width="166.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#506e8ead" height="564.0" layoutX="166.0" stroke="BLACK" strokeType="INSIDE" width="672.0" />
-      <Label layoutX="185.0" layoutY="75.0" text="Places:" />
-      <TextField fx:id="placesField" layoutX="247.0" layoutY="71.0" prefHeight="26.0" prefWidth="150.0" />
-      <Label layoutX="402.0" layoutY="75.0" text="Catégorie:" />
-      <Label layoutX="612.0" layoutY="75.0" text="Date :" />
-      <TextField fx:id="dateField" layoutX="649.0" layoutY="71.0" />
-      <Button fx:id="insertButton" layoutX="635.0" layoutY="154.0" onAction="#ajouterReservation" prefHeight="26.0" prefWidth="97.0" text="Insérer" />
-      <Button fx:id="updateButton" layoutX="181.0" layoutY="524.0" onAction="#modifyReservation" text="Mettre à jour" />
-      <Button fx:id="deleteButton" layoutX="265.0" layoutY="524.0" text="Supprimer" />
-      <Label layoutX="176.0" layoutY="117.0" text="Heure de début:" />
-      <TextField fx:id="startTimeField" layoutX="267.0" layoutY="113.0" prefHeight="26.0" prefWidth="131.0" />
-      <Label layoutX="403.0" layoutY="117.0" text="Heure de fin :" />
-      <TextField fx:id="endTimeField" layoutX="477.0" layoutY="114.0" prefHeight="26.0" prefWidth="122.0" />
-      <TextField fx:id="statusField" layoutX="649.0" layoutY="114.0" prefHeight="26.0" prefWidth="131.0" />
-      <Label layoutX="182.0" layoutY="157.0" text="Durée :" />
-      <TextField fx:id="durationField" layoutX="236.0" layoutY="153.0" prefHeight="26.0" prefWidth="166.0" />
-      <Label layoutX="437.0" layoutY="158.0" text="Tarif :" />
-      <TextField fx:id="pricingField" layoutX="477.0" layoutY="153.0" prefHeight="26.0" prefWidth="122.0" />
-      <Label layoutX="389.0" layoutY="22.0" text="Ajouter Reservation:">
+      <Label layoutX="409.0" layoutY="20.0" text="ACTIVITÉS">
          <font>
-            <Font name="System Bold" size="21.0" />
+            <Font name="Franklin Gothic Medium" size="43.0" />
          </font>
       </Label>
       <Label fx:id="Profile_SU" alignment="CENTER" layoutX="22.0" layoutY="158.0" onMouseClicked="#AfficherProfile" prefHeight="18.0" prefWidth="122.0" text="Profile" textFill="WHITE">
@@ -53,7 +35,7 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <Label fx:id="Planning_SU" alignment="CENTER" layoutX="21.0" layoutY="261.0" prefHeight="18.0" prefWidth="122.0" text="Planning" textFill="WHITE">
+      <Label fx:id="Planning_SU" alignment="CENTER" layoutX="29.0" layoutY="261.0" prefHeight="18.0" prefWidth="122.0" text="Planning" textFill="WHITE">
          <font>
             <Font size="20.0" />
          </font>
@@ -88,7 +70,6 @@
             <Image url="@moree.png" />
          </image>
       </ImageView>
-      
       <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="14.0" layoutY="314.0">
          <image>
             <Image url="@cart.png" />
@@ -125,26 +106,33 @@
       <HBox layoutX="326.0" layoutY="184.60000610351562" />
       <HBox layoutX="326.0" layoutY="210.1999969482422" />
       <HBox layoutX="326.0" layoutY="235.8000030517578" />
-      <Label layoutX="608.0" layoutY="118.0" text="Statut :" />
       <TextField fx:id="reservationField" layoutX="682.0" layoutY="12.0" opacity="0.0" />
       <Label layoutX="598.0" layoutY="13.0" opacity="0.0" text="Reservation ID:" />
-      <TableView fx:id="reservationTable" layoutX="181.0" layoutY="226.0" prefHeight="299.0" prefWidth="642.0">
-         <columns>
-            <TableColumn fx:id="reservationIdColumn" text="ID de réservation" />
-            <TableColumn fx:id="placesColumn" text="Places" />
-            <TableColumn fx:id="categoryColumn" text="Catégorie" />
-            <TableColumn fx:id="dateColumn" text="Date" />
-            <TableColumn fx:id="startTimeColumn" text="Heure de début" />
-            <TableColumn fx:id="statusColumn" text="Statut" />
-            <TableColumn fx:id="durationColumn" text="Durée" />
-            <TableColumn fx:id="pricingColumn" text="Tarif" />
-            <TableColumn fx:id="endTimeColumn" text="Heure de fin" />
-         </columns>
-      </TableView>
-      <ComboBox fx:id="categoryField" layoutX="463.0" layoutY="72.0" prefHeight="26.0" prefWidth="138.0" />
-      <TextField fx:id="search" layoutX="239.0" layoutY="195.0" prefHeight="26.0" prefWidth="166.0" />
-      <Label layoutX="184.0" layoutY="199.0" text="Chercher:" />
-      <Button fx:id="Bpdf" layoutX="735.0" layoutY="524.0" mnemonicParsing="false" onAction="#generatePdfButtonClicked" text="Generate PDF" />
-      <Button fx:id="Bstat" layoutX="658.0" layoutY="524.0" mnemonicParsing="false" onAction="#handleBstatButton" text="Statistiques" />
+      <Label fx:id="Profile_SU1" alignment="CENTER" layoutX="207.0" layoutY="118.0" onMouseClicked="#AfficherProfile" prefHeight="30.0" prefWidth="234.0" text="Choisissez une catégorie:" textFill="#400f0f">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="categoryChoiceBox" layoutX="447.0" layoutY="120.0" prefHeight="26.0" prefWidth="213.0" />
+      <VBox fx:id="courseContainer" layoutX="195.0" layoutY="192.0" prefHeight="315.0" prefWidth="613.0" stylesheets="@Style.css">
+         <children>
+            <VBox fx:id="courseBox" prefHeight="311.0" prefWidth="614.0" stylesheets="@Style.css" />
+            <VBox fx:id="cartitems" opacity="0.0" prefHeight="305.0" prefWidth="614.0" />
+         </children></VBox>
+      <AnchorPane fx:id="cartPane" layoutX="751.0" layoutY="31.0" prefHeight="30.0" prefWidth="8.0">
+         <children>
+            <ImageView fx:id="cartimg" fitHeight="42.0" fitWidth="45.0" layoutX="11.0" layoutY="-7.0" nodeOrientation="RIGHT_TO_LEFT" onMouseClicked="#cartopen">
+               <image>
+                  <Image url="@cart.png" />
+               </image>
+               <effect>
+                  <InnerShadow radius="68.5" width="255.0" />
+               </effect>
+            </ImageView>
+         </children>
+      </AnchorPane>
+
    </children>
+
+
 </AnchorPane>

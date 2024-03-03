@@ -16,15 +16,17 @@ public class Int_Acceuil extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Int_Acceuil.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ShoppingPage.fxml"));
         try {
             Parent root=loader.load();
             Scene scene=new Scene(root);
             primaryStage.setScene(scene);
             primaryStage.show();
+            scene.getStylesheets().add(getClass().getResource("/Style.css").toExternalForm());
+
             /*System.out.println("loaded");*/
         } catch (IOException e) {
-            System.out.println(e.getMessage());;
+            System.out.println(e.getMessage());
         }
     }
 }

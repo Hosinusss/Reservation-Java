@@ -1,13 +1,19 @@
 package services;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import javafx.collections.ObservableList;
 import utils.MyDatabase;
 import models.Reservation;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ReservationService implements IService<Reservation> {
-    private Connection connection;
+    private final Connection connection;
+    List<Reservation> cartReservations = new ArrayList<>();
     public ReservationService(){
         connection=MyDatabase.getInstance().getConnection();
     }
@@ -93,6 +99,138 @@ public class ReservationService implements IService<Reservation> {
             return reservation;
         } else {
             return null;
+        }
+    }
+    public List<String> getCategories() throws SQLException {
+        List<String> categoryList = new ArrayList<>();
+        String sql = "SELECT category FROM reservation"; // Remplacez par votre requête réelle
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            while (resultSet.next()) {
+
+                String category = resultSet.getString("category");
+
+
+                Reservation reservation = new Reservation(category);
+                categoryList.add(category);
+            }
+        }
+
+        return categoryList;
+    }
+
+    /*public List<Reservation> getPlacesWithCategories(int places) throws SQLException {
+        List<Reservation> reservationList = new ArrayList<>();
+        String sql = "SELECT places, category FROM reservation"; // Remplacez par votre requête réelle
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            while (resultSet.next()) {
+                int places = resultSet.getInt("places");
+                String category = resultSet.getString("category");
+
+
+                Reservation reservation = new Reservation(places, category);
+                reservationList.add(reservation);
+            }
+        }
+
+        return reservationList;
+    }*/
+    public List<Reservation> getReservationByPlaces() throws SQLException {
+        List<Reservation> reservationList = new ArrayList<>();
+        String sql = "SELECT places, startTime, status FROM reservation"; // Remplacez par votre requête réelle
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            while (resultSet.next()) {
+                int places = resultSet.getInt("places");
+                String startTime = resultSet.getString("startTime");
+                String status = resultSet.getString("status");
+
+                Reservation reservation = new Reservation(places, startTime, status);
+                reservationList.add(reservation);
+            }
+        }
+
+
+        return reservationList;
+    }
+
+
+    public List<Reservation> getReservations() throws SQLException {
+        List<Reservation> reservationList = new ArrayList<>();
+        String sql = "SELECT category FROM reservation"; // Replace with your actual query
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            while (resultSet.next()) {
+                String category = resultSet.getString("category");
+
+
+                Reservation reservation = new Reservation();
+                reservation.setCategory(category);
+
+                reservationList.add(reservation);
+            }
+        }
+
+        return reservationList;
+    }
+    public void generatePdfFromTableView(List<Reservation> reservations) {
+        try {
+            com.itextpdf.text.Document document = new com.itextpdf.text.Document();
+            try {
+                PdfWriter.getInstance(document, new FileOutputStream("table_view.pdf"));
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+            document.open();
+
+            // Create a table with three columns
+            PdfPTable table = new PdfPTable(9);
+            table.setWidthPercentage(100);
+
+            // Add table headers
+            table.addCell("Reservation ID");
+            table.addCell("Places");
+            table.addCell("Category");
+            table.addCell("Date");
+            table.addCell("Start Time");
+            table.addCell("End Time");
+            table.addCell("Status");
+            table.addCell("Duration");
+            table.addCell("Pricing");
+
+// Populate table with data
+            for (Reservation reservation : reservations) {
+                table.addCell(String.valueOf(reservation.getReservationID()));
+                table.addCell(String.valueOf(reservation.getPlaces()));
+                table.addCell(reservation.getCategory());
+                table.addCell(reservation.getDate());
+                table.addCell(reservation.getStartTime());
+                table.addCell(reservation.getEndTime());
+                table.addCell(reservation.getStatus());
+                table.addCell(String.valueOf(reservation.getDuration()));
+                table.addCell(String.valueOf(reservation.getPricing()));
+            }
+
+
+
+
+            // Add the table to the document
+            document.add(new com.itextpdf.text.Paragraph("Reservation Data Table"));
+            document.add(table);
+
+            document.close();
+            System.out.println("PDF created successfully. Check table_view.pdf");
+        } catch (com.itextpdf.text.DocumentException e) {
+            e.printStackTrace();
         }
     }
 }

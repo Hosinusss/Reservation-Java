@@ -1,4 +1,31 @@
+/* Style for the VBox that contains the courses */
+.courseContainer {
+    -fx-spacing: 10px; /* Space between each course box */
+    -fx-padding: 10px; /* Padding around the edges of the VBox */
+}
 
+/* Style for each course box */
+.courseBox {
+    -fx-background-color: #f0f0f0; /* Light gray background */
+    -fx-border-color: #333; /* Dark gray border */
+    -fx-border-width: 1px; /* Border width */
+    -fx-border-radius: 5px; /* Rounded corners */
+    -fx-padding: 10px; /* Padding inside the course box */
+    -fx-spacing: 5px; /* Space between each label/button inside the course box */
+}
+
+/* Style for the labels inside the course box */
+.courseBox .label {
+    -fx-font-size: 14px; /* Font size */
+}
+
+/* Style for the buttons inside the course box */
+.courseBox .button {
+    -fx-background-color: #007bff; /* Blue background */
+    -fx-text-fill: #fff; /* White text */
+    -fx-border-radius: 5px; /* Rounded corners */
+    -fx-padding: 5px 10px; /* Padding around the text */
+}
 
 .home{
     -fx-font-weight: bold;

@@ -2,6 +2,7 @@ package models;
 
 public class Reservation {
 
+
     private int reservationID;
     private int places;
     private String category;
@@ -11,6 +12,11 @@ public class Reservation {
     private String status;
     private int duration;
     private int pricing;
+
+
+
+    // Other fields and methods...
+
 
 
     public Reservation(int places, String category, String date, String startTime, String endTime, String status, int duration, int pricing) {
@@ -52,6 +58,15 @@ public class Reservation {
     public Reservation(String text, String text1, String text2, String text3, String text4, String text5, String text6, String text7) {
     }
 
+    public Reservation(String category) {
+    }
+
+    public Reservation(int places, String category, String date) {
+        this.places=places;
+        this.category=category;
+        this.date=date;
+    }
+
     public int getReservationID() {
         return reservationID;
     }
@@ -60,12 +75,12 @@ public class Reservation {
         this.reservationID = reservationID;
     }
 
-    public int getPlaces() {
-        return places;
-    }
-
     public void setPlaces(int places) {
         this.places = places;
+    }
+
+    public int getPlaces() {
+        return this.places;
     }
 
     public String getCategory() {
